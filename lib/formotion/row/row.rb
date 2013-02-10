@@ -82,7 +82,8 @@ module Formotion
       # When a row is deleted, actually remove the row from UI
       # instead of just nil'ing the value.
       # DEFAULT is false EXCEPT for template-generated rows
-      :remove_on_delete
+      :remove_on_delete,
+      :tv_controller
     ]
     PROPERTIES.each {|prop|
       attr_accessor prop

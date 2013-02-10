@@ -155,7 +155,18 @@ class AppDelegate
           title: "Sign Up",
           type: :submit,
         }]
-      }]
+      },{
+          title: "Tableview Picker",
+          rows: [
+          {
+              title: 'Select from tableview',
+              type: :tv_picker,
+              value: 'Value 3',
+              tv_controller: TableviewPickerController.new
+          }]
+        }
+
+      ]
     })
 
     @view_controller = Formotion::FormController.alloc.initWithForm(form)
@@ -166,5 +177,30 @@ class AppDelegate
     @window.rootViewController = @view_controller
     @window.makeKeyAndVisible
     true
+  end
+
+
+end
+
+class TableviewPickerController < UITableViewController
+  def viewDidLoad
+    @values = [{name: 'value 1'}, {name: 'value 2'}, {name: 'value 3'}, {name: 'value 4'}]
+  end
+
+  def tableView(tv, numberOfRowsInSection: section)
+    @values.count
+  end
+
+  def tableView(tv, cellForRowAtIndexPath: indexPath)
+    @reuseIdentifier ||= 'ValueCell'
+    cell = tv.dequeueReusableCellWithIdentifier(@reuseIdentifier)|| begin
+      UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier: @reuseIdentifier)
+    end
+    cell.textLabel.text = @values[indexPath.row][:name]
+    cell
+  end
+
+  def tableView(tableView, didSelectRowAtIndexPath: indexPath)
+    selectRow(@values[indexPath.row][:name])
   end
 end
